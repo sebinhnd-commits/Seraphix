@@ -30,6 +30,7 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
 /* pages */
 .page{display:none}.page.active{display:block}
 .wrap{max-width:1000px;margin:0 auto;padding:1.5rem}
+#home-detail-wrap{padding-top:1.75rem}
 
 /* char grid */
 .section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:10px}
@@ -54,7 +55,7 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
 .card-act-btn.del:hover{background:#ffe0e0;color:#e24b4a}
 
 /* detail page */
-.detail-header{background:linear-gradient(135deg,#deeeff 0%,#eef4ff 60%,#ffe8f4 100%);border-radius:var(--rad);padding:2rem 1.75rem 1.5rem;margin-bottom:1.25rem;position:relative;overflow:hidden;background-size:cover;background-position:center}
+.detail-header{background:linear-gradient(135deg,#deeeff 0%,#eef4ff 60%,#ffe8f4 100%);border-radius:var(--rad);padding:2.5rem 1.75rem 2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;background-size:cover;background-position:center;min-height:160px}
 .detail-header.has-cover::before,.detail-header.has-cover::after{display:none}
 .detail-header.has-cover .detail-top{background:rgba(255,255,255,0.78);border-radius:var(--rad-sm);padding:1rem;backdrop-filter:blur(2px)}
 .detail-header::before{content:'';position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;background:rgba(180,215,255,0.4)}
@@ -83,7 +84,7 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
 .editor-toolbar{padding:8px 12px;background:var(--blue0);border-bottom:1px solid var(--blue1);display:flex;gap:6px;align-items:center}
 .toolbar-btn{background:none;border:1px solid var(--blue2);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;color:var(--blue4);cursor:pointer;transition:background 0.12s}
 .toolbar-btn:hover{background:var(--blue1)}
-.editor-body{width:100%;min-height:220px;padding:14px;font-family:'Nunito',sans-serif;font-size:13px;line-height:1.8;border:none;outline:none;resize:none;color:var(--text);background:var(--card)}
+.editor-body{width:100%;min-height:420px;padding:14px;font-family:'Nunito',sans-serif;font-size:13px;line-height:1.8;border:none;outline:none;resize:vertical;color:var(--text);background:var(--card)}
 .save-row{display:flex;justify-content:flex-end;padding:8px 12px;background:var(--blue0);border-top:1px solid var(--blue1);gap:8px;align-items:center}
 .saved-hint{font-size:11px;color:var(--text3);transition:opacity 0.3s}
 
@@ -97,7 +98,7 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
 .pdot.active{background:var(--blue4);width:22px;border-radius:var(--rad-pill)}
 
 /* gallery (per-character tab) */
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
 .g-thumb{aspect-ratio:1;border-radius:var(--rad-sm);overflow:hidden;position:relative;border:1.5px solid var(--blue1);background-size:cover;background-position:center}
 .g-thumb .g-del{position:absolute;top:6px;right:6px;background:rgba(45,58,74,0.55);color:#fff;border:none;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;transition:opacity 0.15s;font-size:12px}
 .g-thumb:hover .g-del{opacity:1}
@@ -115,13 +116,26 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
 .asset-card .body p{font-size:11px;color:var(--text2);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
 
-/* asset prompt - detail tab */
-.asset-img-box{width:100%;aspect-ratio:16/9;border-radius:var(--rad-sm);border:1.5px solid var(--blue1);overflow:hidden;background:var(--blue0);display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative;background-size:cover;background-position:center;margin-bottom:14px}
-.asset-img-box .placeholder{color:var(--text3);font-size:13px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:6px}
-.asset-img-box .placeholder i{font-size:28px}
-.asset-img-box.has-img .placeholder{display:none}
-.asset-img-box .overlay-edit{position:absolute;inset:0;background:rgba(45,58,74,0.4);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.15s;font-size:13px;font-weight:700;gap:6px}
-.asset-img-box.has-img:hover .overlay-edit{opacity:1}
+/* asset prompt accordion */
+.asset-accordion{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.asset-entry{background:var(--card);border:1.5px solid var(--blue1);border-radius:var(--rad-sm);overflow:hidden;transition:border-color 0.15s}
+.asset-entry:hover{border-color:var(--blue3)}
+.asset-entry-header{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;user-select:none}
+.asset-entry-title{font-size:13px;font-weight:700;flex:1;color:var(--text)}
+.asset-entry-arrow{font-size:14px;color:var(--text3);transition:transform 0.2s;display:flex;align-items:center}
+.asset-entry.open .asset-entry-arrow{transform:rotate(180deg)}
+.asset-entry-body{display:none;border-top:1.5px solid var(--blue1);padding:12px 14px;background:var(--blue0)}
+.asset-entry.open .asset-entry-body{display:block}
+.asset-entry-content{font-size:12px;color:var(--text);line-height:1.8;white-space:pre-wrap;word-break:break-all}
+.asset-entry-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:14px;padding:2px 5px;border-radius:6px;transition:all 0.12s;flex-shrink:0}
+.asset-entry-del:hover{background:#ffe0e0;color:#e24b4a}
+.asset-add-row{display:flex;gap:8px;margin-top:4px}
+.asset-add-input{flex:1;padding:8px 12px;border:1.5px solid var(--blue2);border-radius:var(--rad-sm);font-size:13px;font-family:'Nunito',sans-serif;color:var(--text);background:var(--blue0);outline:none;transition:border 0.15s}
+.asset-add-input:focus{border-color:var(--blue3);background:#fff}
+.asset-add-textarea{width:100%;padding:8px 12px;border:1.5px solid var(--blue2);border-radius:var(--rad-sm);font-size:12px;font-family:'Nunito',sans-serif;color:var(--text);background:var(--blue0);outline:none;resize:vertical;min-height:90px;margin-top:8px;transition:border 0.15s;display:none}
+.asset-add-textarea:focus{border-color:var(--blue3);background:#fff}
+.asset-new-form{background:var(--card);border:1.5px dashed var(--blue2);border-radius:var(--rad-sm);padding:12px 14px}
+.asset-new-form-title{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px}
 
 /* memo page / list */
 .memo-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:1.25rem}
@@ -462,6 +476,13 @@ function applyState(data){
   nextId=data.nextId||nextId;
   nextMemoId=data.nextMemoId||nextMemoId;
   nextSchedId=data.nextSchedId||nextSchedId;
+  /* migrate old assetPrompt string -> assetEntries array */
+  chars.forEach(c=>{
+    if(!c.assetEntries) c.assetEntries=[];
+    if(c.assetPrompt&&c.assetEntries.length===0){
+      c.assetEntries.push({title:'기본 프롬프트',content:c.assetPrompt});
+    }
+  });
 }
 function scheduleSave(){
   if(!currentUser)return;
@@ -724,26 +745,15 @@ function renderDetailPane(){
         </div>
       </div>`;
   } else if(curDetailPage===2){
-    /* 에셋 프롬프트 */
-    const imgStyle=c.assetImg?`background-image:url('${c.assetImg}')`:'';
-    pane.innerHTML=`
-      <div class="asset-img-box ${c.assetImg?'has-img':''}" style="${imgStyle}" onclick="document.getElementById('asset-img-input').click()">
-        <div class="placeholder"><i class="ti ti-photo-plus" aria-hidden="true"></i><span>예시 이미지 추가</span></div>
-        <div class="overlay-edit"><i class="ti ti-photo-plus" aria-hidden="true"></i> 이미지 변경</div>
-      </div>
-      <input type="file" id="asset-img-input" accept="image/*" style="display:none" onchange="handleAssetImgUpload(event)">
-      <div class="editor-wrap">
-        <div class="editor-toolbar">
-          <span style="font-size:11px;font-weight:700;color:var(--text2)">에셋 프롬프트</span>
-          <button class="toolbar-btn" onclick="copyField('assetPrompt')"><i class="ti ti-copy" aria-hidden="true"></i> 복사</button>
-          <div style="flex:1"></div>
-          <span class="saved-hint" id="save-hint"></span>
-        </div>
-        <textarea class="editor-body" oninput="autoSaveField('assetPrompt',this.value)" placeholder="이미지 생성용 프롬프트를 입력하세요...">${c.assetPrompt||''}</textarea>
-        <div class="save-row">
-          <button class="btn-s" style="font-size:11px;padding:5px 14px" onclick="copyField('assetPrompt')"><i class="ti ti-copy" aria-hidden="true"></i> 복사하기</button>
-        </div>
-      </div>`;
+    /* 에셋 프롬프트 - 접는 글 형식 */
+    const entries=c.assetEntries||[];
+    let accordionHtml='<div class="asset-accordion" id="asset-accordion">';
+    entries.forEach((entry,i)=>{
+      accordionHtml+=`<div class="asset-entry" id="asset-entry-${i}"><div class="asset-entry-header" onclick="toggleAssetEntry(${i})"><span class="asset-entry-title">${entry.title||'(제목 없음)'}</span><button class="asset-entry-del" title="삭제" onclick="event.stopPropagation();deleteAssetEntry(${i})"><i class="ti ti-trash" aria-hidden="true"></i></button><span class="asset-entry-arrow"><i class="ti ti-chevron-down" aria-hidden="true"></i></span></div><div class="asset-entry-body"><pre class="asset-entry-content">${entry.content||''}</pre><div style="display:flex;gap:6px;margin-top:10px;justify-content:flex-end"><button class="btn-s" style="font-size:11px;padding:4px 12px" onclick="copyAssetEntry(${i})"><i class="ti ti-copy" aria-hidden="true"></i> 복사</button><button class="btn-s" style="font-size:11px;padding:4px 12px" onclick="editAssetEntry(${i})"><i class="ti ti-pencil" aria-hidden="true"></i> 수정</button></div></div></div>`;
+    });
+    accordionHtml+='</div>';
+    accordionHtml+=`<div class="asset-new-form"><div class="asset-new-form-title">✦ 새 프롬프트 추가</div><div class="asset-add-row"><input class="asset-add-input" id="asset-new-title-input" placeholder="제목 (예: 기본 의상, 전투 자세...)"></div><textarea class="asset-add-textarea" id="asset-new-content" placeholder="에셋 프롬프트 내용을 입력하세요..." style="display:block;margin-top:8px"></textarea><div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end"><button class="btn-p" style="font-size:11px;padding:5px 14px" onclick="addAssetEntry()"><i class="ti ti-plus" aria-hidden="true"></i> 추가</button></div></div>`;
+    pane.innerHTML=accordionHtml;
   } else {
     /* 갤러리 */
     const imgs=c.gallery||[];
@@ -785,6 +795,45 @@ function deleteGalleryImg(i){
   renderDetailPane();
   showToast('이미지가 삭제됐어요!');
   scheduleSave();
+}
+/* ---- ASSET ACCORDION ---- */
+function toggleAssetEntry(i){
+  const el=document.getElementById('asset-entry-'+i);
+  if(el) el.classList.toggle('open');
+}
+function addAssetEntry(){
+  const title=(document.getElementById('asset-new-title-input').value||'').trim();
+  const content=(document.getElementById('asset-new-content').value||'').trim();
+  if(!title&&!content){showToast('제목 또는 내용을 입력해주세요!');return}
+  if(!curChar.assetEntries) curChar.assetEntries=[];
+  curChar.assetEntries.push({title,content});
+  scheduleSave();
+  renderDetailPane();
+  showToast('프롬프트가 추가됐어요! ✦');
+}
+function deleteAssetEntry(i){
+  if(!curChar||!curChar.assetEntries)return;
+  curChar.assetEntries.splice(i,1);
+  scheduleSave();
+  renderDetailPane();
+  showToast('삭제됐어요!');
+}
+function copyAssetEntry(i){
+  const entry=(curChar.assetEntries||[])[i];
+  if(entry){navigator.clipboard.writeText(entry.content||'').catch(()=>{});showToast('복사 완료! 💙')}
+}
+function editAssetEntry(i){
+  const entry=(curChar.assetEntries||[])[i];
+  if(!entry)return;
+  const newTitle=prompt('제목 수정',entry.title||'');
+  if(newTitle===null)return;
+  const newContent=prompt('내용 수정',entry.content||'');
+  if(newContent===null)return;
+  entry.title=newTitle.trim();
+  entry.content=newContent.trim();
+  scheduleSave();
+  renderDetailPane();
+  showToast('수정됐어요! ✏️');
 }
 function autoSaveField(field,v){
   if(curChar){curChar[field]=v;}
@@ -1056,7 +1105,7 @@ function saveChar(){
     Object.assign(c,fields);
     showToast(`${name} 수정 완료! ✏️`);
   } else {
-    const c={id:nextId++,...fields,promptKR:'',promptEN:'',cover:null,assetImg:null,assetPrompt:'',gallery:[]};
+    const c={id:nextId++,...fields,promptKR:'',promptEN:'',cover:null,assetImg:null,assetPrompt:'',assetEntries:[],gallery:[]};
     chars.push(c);
     showToast(`${name} 추가됐어요! 🌸`);
   }
