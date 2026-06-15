@@ -84,7 +84,7 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
 .editor-toolbar{padding:8px 12px;background:var(--blue0);border-bottom:1px solid var(--blue1);display:flex;gap:6px;align-items:center}
 .toolbar-btn{background:none;border:1px solid var(--blue2);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700;font-family:'Nunito',sans-serif;color:var(--blue4);cursor:pointer;transition:background 0.12s}
 .toolbar-btn:hover{background:var(--blue1)}
-.editor-body{width:100%;min-height:420px;padding:14px;font-family:'Nunito',sans-serif;font-size:13px;line-height:1.8;border:none;outline:none;resize:vertical;color:var(--text);background:var(--card)}
+.editor-body{width:100%;min-height:580px;padding:16px;font-family:'Nunito',sans-serif;font-size:13px;line-height:1.9;border:none;outline:none;resize:vertical;color:var(--text);background:#e8f4fd;}
 .save-row{display:flex;justify-content:flex-end;padding:8px 12px;background:var(--blue0);border-top:1px solid var(--blue1);gap:8px;align-items:center}
 .saved-hint{font-size:11px;color:var(--text3);transition:opacity 0.3s}
 
@@ -348,9 +348,8 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
       </div>
     </div>
 
-    <div class="fg-row">
-      <div class="fg"><label>나이</label><input id="f-age" type="text" placeholder="나이"></div>
-      <div class="fg"><label>장르 / 세계관</label><input id="f-genre" placeholder="판타지, SF, 현대물 ..."></div>
+    <div class="fg">
+      <label>나이</label><input id="f-age" type="text" placeholder="나이">
     </div>
 
     <div class="fg"><label>소속</label>
@@ -366,6 +365,12 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
         <button type="button" class="pill-opt" data-val="오퍼레이터" onclick="selectPill(this,'rank')">오퍼레이터</button>
         <button type="button" class="pill-opt" data-val="스태빌라이저" onclick="selectPill(this,'rank')">스태빌라이저</button>
       </div>
+      <div class="pill-row" id="f-rank2-row" style="margin-top:6px">
+        <button type="button" class="pill-opt" data-val="인포서" onclick="selectPill(this,'rank2')">인포서</button>
+        <button type="button" class="pill-opt" data-val="레인저" onclick="selectPill(this,'rank2')">레인저</button>
+        <button type="button" class="pill-opt" data-val="러너" onclick="selectPill(this,'rank2')">러너</button>
+        <button type="button" class="pill-opt" data-val="루키" onclick="selectPill(this,'rank2')">루키</button>
+      </div>
     </div>
 
     <div class="fg"><label>능력</label>
@@ -375,12 +380,12 @@ body{font-family:'Nunito',var(--font-sans),sans-serif;background:var(--bg);color
         <button type="button" class="pill-opt" data-val="정신계" onclick="selectPill(this,'ability')">정신계</button>
         <button type="button" class="pill-opt" data-val="개념계" onclick="selectPill(this,'ability')">개념계</button>
         <button type="button" class="pill-opt" data-val="변이계" onclick="selectPill(this,'ability')">변이계</button>
+        <button type="button" class="pill-opt" data-val="치유계" onclick="selectPill(this,'ability')">치유계</button>
         <button type="button" class="pill-opt" data-val="기타" onclick="selectPill(this,'ability')">기타</button>
       </div>
     </div>
 
     <div class="fg"><label>태그 (쉼표 구분)</label><input id="f-tags" placeholder="마법사, 냉정함, 흑발"></div>
-    <div class="fg"><label>아바타 색상</label><div class="color-row" id="color-row"></div></div>
     <div class="modal-btns"><button class="btn-s" onclick="document.getElementById('modal-char').style.display='none'">취소</button><button class="btn-p" id="char-save-btn" onclick="saveChar()">추가하기</button></div>
   </div>
 </div>
@@ -547,7 +552,7 @@ const PALETTES=[
 let selCol=0;
 let editingCharId=null; /* null = adding new, otherwise editing existing char id */
 let f_avatarData=null;
-const f_pills={gender:'',affil:'',rank:'',ability:''};
+const f_pills={gender:'',affil:'',rank:'',rank2:'',ability:''};
 
 let chars=[
   {id:1,name:'아라',codename:'',gender:'여자',age:'',affil:'',rank:'',ability:'',genre:'다크 판타지',
@@ -603,7 +608,7 @@ function renderGrid(list){
       </div>
       <div class="char-avatar" style="${avatarStyle(c,p)}" onclick="event.stopPropagation();showDetail(${c.id})" title="클릭해서 프로필 보기">${avatarContent(c)}</div>
       <div class="char-name">${c.name}${c.codename?` <span style="color:var(--text3);font-weight:600;font-size:11px">(${c.codename})</span>`:''}</div>
-      <div class="char-genre">${[c.affil,c.rank].filter(Boolean).join(' · ')||c.genre}</div>
+      <div class="char-genre">${[c.affil,c.rank,c.rank2].filter(Boolean).join(' · ')||c.genre}</div>
       <div class="tag-wrap">${(c.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div>
     `;
     d.onclick=()=>showDetail(c.id);
@@ -638,7 +643,7 @@ function renderDetail(){
   const c=curChar;
   const p=pal(c.col);
   const dc=document.getElementById('detail-content');
-  const metaLine=[c.codename?`코드네임: ${c.codename}`:'',c.gender,c.age?`${c.age}세`:'',c.affil,c.rank,c.ability].filter(Boolean).join(' · ');
+  const metaLine=[c.codename?`코드네임: ${c.codename}`:'',c.gender,c.age?`${c.age}세`:'',c.affil,c.rank,c.rank2,c.ability].filter(Boolean).join(' · ');
   const coverStyle=c.cover?`background-image:url('${c.cover}')`:'';
   dc.innerHTML=`
     <div class="detail-header ${c.cover?'has-cover':''}" style="${coverStyle}">
@@ -987,7 +992,7 @@ function deleteSchedule(id){
 
 /* ---- ADD / EDIT CHAR MODAL ---- */
 function resetPills(){
-  f_pills.gender='';f_pills.affil='';f_pills.rank='';f_pills.ability='';
+  f_pills.gender='';f_pills.affil='';f_pills.rank='';f_pills.rank2='';f_pills.ability='';
   document.querySelectorAll('.pill-opt').forEach(e=>e.classList.remove('sel'));
 }
 function selectPill(el,group){
@@ -1032,10 +1037,7 @@ function openAddChar(){
   document.getElementById('f-codename').value='';
   document.getElementById('f-name').value='';
   document.getElementById('f-age').value='';
-  document.getElementById('f-genre').value='';
   document.getElementById('f-tags').value='';
-  const cr=document.getElementById('color-row');
-  cr.innerHTML=PALETTES.map((p,i)=>`<div class="co${i===0?' sel':''}" style="background:${p.av}" onclick="pickCol(${i},this)"></div>`).join('');
   document.getElementById('modal-char').style.display='flex';
   setTimeout(()=>document.getElementById('f-name').focus(),50);
 }
@@ -1051,14 +1053,12 @@ function openEditChar(id){
   document.getElementById('f-codename').value=c.codename||'';
   document.getElementById('f-name').value=c.name||'';
   document.getElementById('f-age').value=c.age||'';
-  document.getElementById('f-genre').value=c.genre||'';
   document.getElementById('f-tags').value=(c.tags||[]).join(', ');
   if(c.gender)setPill('gender',c.gender);
   if(c.affil)setPill('affil',c.affil);
   if(c.rank)setPill('rank',c.rank);
+  if(c.rank2)setPill('rank2',c.rank2);
   if(c.ability)setPill('ability',c.ability);
-  const cr=document.getElementById('color-row');
-  cr.innerHTML=PALETTES.map((p,i)=>`<div class="co${i===c.col?' sel':''}" style="background:${p.av}" onclick="pickCol(${i},this)"></div>`).join('');
   if(c.avatar){
     f_avatarData=c.avatar;
     const box=document.getElementById('f-avatar-box');
@@ -1092,11 +1092,12 @@ function saveChar(){
     name,
     codename:document.getElementById('f-codename').value.trim(),
     age:document.getElementById('f-age').value.trim(),
-    genre:document.getElementById('f-genre').value.trim()||'미분류',
+    genre:'미분류',
     tags,col:selCol,
     gender:f_pills.gender,
     affil:f_pills.affil,
     rank:f_pills.rank,
+    rank2:f_pills.rank2,
     ability:f_pills.ability,
     avatar:f_avatarData,
   };
